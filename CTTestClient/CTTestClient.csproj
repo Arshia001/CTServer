@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.Client" Version="2.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\LightMessage-Core\LightMessage.Client\LightMessage.Client.csproj" />
+    <ProjectReference Include="..\BackgammonLogic\BackgammonLogic.csproj" />
+    <ProjectReference Include="..\CTGrainInterfaces\CTGrainInterfaces.csproj" />
+    <ProjectReference Include="..\CTGrains\CTGrains.csproj" />
+  </ItemGroup>
+
+</Project>

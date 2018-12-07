@@ -1,0 +1,3 @@
+﻿{
+  "ConnectionString": "Contact Point=localhost;KeySpace=ct_server_dev;Compression=Snappy"
+}
