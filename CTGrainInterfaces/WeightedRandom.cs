@@ -8,24 +8,27 @@ namespace CTGrainInterfaces
 {
     public class WeightedRandom<T>
     {
-        IReadOnlyList<T> ItemsByWeight;
+        C5.TreeDictionary<int, T> itemsByWeightOffset = new C5.TreeDictionary<int, T>();
+        int maxWeight;
 
-        public WeightedRandom(IEnumerable<T> Items, Func<T, int> Weight)
+
+        public WeightedRandom(IEnumerable<T> items, Func<T, int> weight)
         {
-            var List = new List<T>();
-            foreach (var I in Items)
+            foreach (var item in items)
             {
-                var W = Weight(I);
-                for (int i = 0; i < W; ++i)
-                    List.Add(I);
-            }
+                var w = weight(item);
+                if (w <= 0)
+                    continue;
 
-            ItemsByWeight = List;
+                itemsByWeightOffset.Add(maxWeight, item);
+                maxWeight += w;
+            }
         }
 
-        public T Get(int Random)
+        public T Get(int random)
         {
-            return ItemsByWeight[Random % ItemsByWeight.Count];
+            var index = random % maxWeight;
+            return itemsByWeightOffset.WeakPredecessor(index).Value;
         }
     }
 }
