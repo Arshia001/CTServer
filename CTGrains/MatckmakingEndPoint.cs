@@ -30,20 +30,20 @@ namespace CTGrains
         {
             var GameID = Params.Args[0].AsInt;
             if (!GameID.HasValue)
-                return Failure("");
+                throw new Exception("");
 
             var UserProfile = GrainFactory.GetGrain<IUserProfile>(Params.ClientID);
 
             if (!ConfigReader.Config.Games.TryGetValue((int)GameID, out var GameConfig))
-                return Failure("Invalid game ID");
+                throw new Exception("Invalid game ID");
 
             if ((await UserProfile.GetInfo()).Value.Level < GameConfig.MinLevel)
-                return Failure("User level too low for game");
+                throw new Exception("User level too low for game");
 
             if (await UserProfile.EnterQueue((int)GameID.Value))
                 return Success();
             else
-                return Failure("Cannot enter queue while in another queue or game is in progress");
+                throw new Exception("Cannot enter queue while in another queue or game is in progress");
         }
 
         [MethodName("leave")]

@@ -57,7 +57,7 @@ namespace CTGrains
         {
             var ConfigData = ConfigReader.Config;
             if (ConfigData.ConfigValues.IsServerUnderMaintenance)
-                return Failure("Server under maintenance");
+                throw new Exception("Server under maintenance");
 
             var ProfileGrain = GrainFactory.GetGrain<IUserProfile>(Params.ClientID);
             var ProfileInfo = (await ProfileGrain.PerformClientStartupTasksAndGetInfo()).Value;
@@ -205,7 +205,7 @@ namespace CTGrains
             var IabToken = Params.Args[1].AsString;
 
             if (!ConfigReader.Config.Packs.TryGetValue((int)PackID, out var Pack))
-                return Failure("Invalid pack ID");
+                throw new Exception("Invalid pack ID");
 
             var VerifyResult = await GrainFactory.GetGrain<IBazaarIabVerifier>(0).VerifyBazaarPurchase(Pack.IabSku, IabToken);
 
@@ -241,7 +241,7 @@ namespace CTGrains
             var Result = await Profile.RollSpinner();
 
             if (Result == null)
-                return Failure("");
+                throw new Exception("");
 
             return Success(Param.Int(Result.RewardID), Param.UInt(Result.TotalFunds[CurrencyType.Gold.AsIndex()]), Param.UInt(Result.TotalFunds[CurrencyType.Gem.AsIndex()]), Param.TimeSpan(Result.TimeUntilNextSpin));
         }
@@ -259,14 +259,14 @@ namespace CTGrains
         public async Task<EndPointFunctionResult> RollMultiplierSpinner(EndPointFunctionParams Params)
         {
             if (!await VideoAdUtils.VerifyTapsellAd(Params.Args[0].AsString))
-                return Failure("Video ad not valid");
+                throw new Exception("Video ad not valid");
 
             var Profile = GrainFactory.GetGrain<IUserProfile>(Params.ClientID);
 
             var Result = await Profile.RollMultiplierSpinner();
 
             if (Result == null)
-                return Failure("");
+                throw new Exception("");
 
             return Success(Param.Int(Result.RewardID), Param.UInt(Result.TotalFunds[CurrencyType.Gold.AsIndex()]), Param.UInt(Result.TotalFunds[CurrencyType.Gem.AsIndex()]));
         }
@@ -282,7 +282,7 @@ namespace CTGrains
         public async Task<EndPointFunctionResult> TakeVideoAdReward(EndPointFunctionParams Params)
         {
             if (!await VideoAdUtils.VerifyTapsellAd(Params.Args[0].AsString))
-                return Failure("Video ad not valid");
+                throw new Exception("Video ad not valid");
 
             var Profile = GrainFactory.GetGrain<IUserProfile>(Params.ClientID);
 
@@ -296,7 +296,7 @@ namespace CTGrains
         {
             var Name = Params.Args[0].AsString ?? throw new ArgumentException("Name cannot be null");
             if (Name.Length > ConfigReader.Config.ConfigValues.MaximumNameLength)
-                return Failure("Name too long");
+                throw new Exception("Name too long");
             var Result = await GrainFactory.GetGrain<IUserProfile>(Params.ClientID).SetName(Name);
             return Success(Param.Boolean(Result));
         }

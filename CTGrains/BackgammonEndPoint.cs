@@ -31,7 +31,7 @@ namespace CTGrains
         {
             var Game = await GrainFactory.GetGrain<IUserProfile>(Params.ClientID).GetGame() as IBackgammonGame;
             if (Game == null)
-                return Failure("Client is not in a backgammon game");
+                throw new Exception("Client is not in a backgammon game");
 
             var Array = Params.Args[0].AsArray;
             var From = new sbyte[Array.Count];
@@ -55,7 +55,7 @@ namespace CTGrains
         {
             var Game = await GrainFactory.GetGrain<IUserProfile>(Params.ClientID).GetGame() as IBackgammonGame;
             if (Game == null)
-                return Failure("Client is not in a backgammon game");
+                throw new Exception("Client is not in a backgammon game");
 
             var Stamp = (byte)Params.Args[0].AsUInt.Value;
 
@@ -69,7 +69,7 @@ namespace CTGrains
         {
             var Game = await GrainFactory.GetGrain<IUserProfile>(Params.ClientID).GetGame() as IBackgammonGame;
             if (Game == null)
-                return Failure("Client is not in a backgammon game");
+                throw new Exception("Client is not in a backgammon game");
 
             var Stamp = (byte)Params.Args[0].AsUInt.Value;
 
@@ -83,7 +83,7 @@ namespace CTGrains
         {
             var Game = await GrainFactory.GetGrain<IUserProfile>(Params.ClientID).GetGame() as IBackgammonGame;
             if (Game == null)
-                return Failure("Client is not in a backgammon game");
+                throw new Exception("Client is not in a backgammon game");
 
             var Stamp = (byte)Params.Args[0].AsUInt.Value;
 
@@ -113,7 +113,7 @@ namespace CTGrains
         {
             var Game = await GrainFactory.GetGrain<IUserProfile>(Params.ClientID).GetGame() as IBackgammonGame;
             if (Game == null)
-                return Failure("Client is not in a backgammon game");
+                throw new Exception("Client is not in a backgammon game");
 
             try
             {
@@ -139,7 +139,7 @@ namespace CTGrains
             }
             catch (Exception Ex)
             {
-                return Failure(Ex.Message);
+                throw new Exception(Ex.Message);
             }
         }
 
@@ -148,7 +148,7 @@ namespace CTGrains
         {
             var Game = await GrainFactory.GetGrain<IUserProfile>(Params.ClientID).GetGame() as IBackgammonGame;
             if (Game == null)
-                return Failure("Client is not in a backgammon game");
+                throw new Exception("Client is not in a backgammon game");
 
             try
             {
@@ -158,7 +158,7 @@ namespace CTGrains
             }
             catch (Exception Ex)
             {
-                return Failure(Ex.Message);
+                throw new Exception(Ex.Message);
             }
         }
 
@@ -173,7 +173,7 @@ namespace CTGrains
         {
             var Game = await GrainFactory.GetGrain<IUserProfile>(Params.ClientID).GetGame() as IBackgammonGame;
             if (Game == null)
-                return Failure("Client is not in a backgammon game");
+                throw new Exception("Client is not in a backgammon game");
 
             Game.Emote(Params.ClientID, (int)Params.Args[0].AsInt.Value).Ignore();
 
@@ -191,7 +191,7 @@ namespace CTGrains
         {
             var Game = await GrainFactory.GetGrain<IUserProfile>(Params.ClientID).GetGame() as IBackgammonGame;
             if (Game == null)
-                return Failure("Client is not in a backgammon game");
+                throw new Exception("Client is not in a backgammon game");
 
             Game.Concede(Params.ClientID).Ignore();
 
