@@ -98,7 +98,7 @@ namespace CTGrains
         public Task Destroy()
         {
             if (State.PlayGamesId != null)
-                throw new ErrorCodeException(ErrorCode.CannotDestroyAccountWithSocialLink);
+                throw new ErrorCodeException(CTGrainInterfaces.ErrorCode.CannotDestroyAccountWithSocialLink);
 
             return ClearStateAsync();
         }

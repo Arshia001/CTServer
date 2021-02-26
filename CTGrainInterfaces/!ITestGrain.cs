@@ -1,4 +1,4 @@
-﻿using LightMessage.Common.ProtocolMessages;
+﻿using LightMessage.Common.MessagingProtocol;
 using Orleans;
 using Orleans.CodeGeneration;
 using Orleans.Serialization;
@@ -49,7 +49,7 @@ namespace CTGrainInterfaces
         //Task TestStream();
         //Task InternalWriteToStream(Stream Stream);
 
-        Task<MessageBase> TestMessage(MessageBase Message);
+        Task<ProtocolMessage> TestMessage(ProtocolMessage Message);
 
         Task<ITestGrain> GetSelf(ITestGrain TG);
 

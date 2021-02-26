@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Orleans.Runtime;
 using System.IO;
-using LightMessage.Common.ProtocolMessages;
+using LightMessage.Common.MessagingProtocol;
 using System.Threading;
 using Cassandra;
 using Bond;
@@ -108,9 +108,9 @@ namespace CTGrains
         //    return Task.CompletedTask;
         //}
 
-        public Task<MessageBase> TestMessage(MessageBase Message)
+        public Task<ProtocolMessage> TestMessage(ProtocolMessage Message)
         {
-            return Task.FromResult<MessageBase>(new AckMessage(1));
+            return Task.FromResult<ProtocolMessage>(new AckMessage(1));
         }
 
         public Task TestIab(string Sku, string Token)

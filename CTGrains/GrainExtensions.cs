@@ -20,7 +20,7 @@ namespace CTGrains
             {
                 var T = OnFail?.Invoke();
                 await T;
-                throw new ErrorCodeException(ErrorCode.InternalError, Ex);
+                throw new ErrorCodeException(CTGrainInterfaces.ErrorCode.InternalError, Ex);
             }
         }
     }

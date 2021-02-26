@@ -1,6 +1,6 @@
 ﻿using BackgammonLogic;
 using CTGrainInterfaces;
-using LightMessage.Common.Messages;
+using LightMessage.Common.WireProtocol;
 using LightMessage.OrleansUtils.GrainInterfaces;
 using LightMessage.OrleansUtils.Grains;
 using Orleans;

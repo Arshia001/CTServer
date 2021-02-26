@@ -1,4 +1,4 @@
-﻿using LightMessage.Common.ProtocolMessages;
+﻿using LightMessage.Common.MessagingProtocol;
 using Orleans;
 using System;
 using System.Collections.Generic;

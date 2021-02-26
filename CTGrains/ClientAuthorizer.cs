@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LightMessage.Common.ProtocolMessages;
+using LightMessage.Common.MessagingProtocol;
 using Cassandra;
 using OrleansCassandraUtils.Utils;
 
@@ -39,7 +39,7 @@ namespace CTGrains
             //?? add google play sign-in
 
             // Client already has an ID, use it as profile ID and check if it's in use
-            var ClientID = AuthMessage.AsGuid(0);
+            var ClientID = AuthMessage.Params.Count > 0 ? AuthMessage.Params[0].AsGuid : default;
             if (ClientID.HasValue)
                 return await GrainFactory.GetGrain<IUserProfile>(ClientID.Value).IsInitialized() ? ClientID : null;
 

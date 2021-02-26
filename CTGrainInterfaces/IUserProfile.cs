@@ -1,6 +1,7 @@
 ﻿using Bond;
 using Bond.Tag;
-using LightMessage.Common.Messages;
+using LightMessage.Common.MessagingProtocol;
+using LightMessage.Common.WireProtocol;
 using Orleans;
 using Orleans.Concurrency;
 using OrleansBondUtils;

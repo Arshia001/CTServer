@@ -1,6 +1,6 @@
 ﻿using CTGrainInterfaces;
 using CTGrains;
-using LightMessage.Common.ProtocolMessages;
+using LightMessage.Common.MessagingProtocol;
 using LightMessage.OrleansUtils.GrainInterfaces;
 using LightMessage.OrleansUtils.Grains;
 using LightMessage.OrleansUtils.Host;
@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using Orleans;
 using Orleans.Configuration;
 using Orleans.Hosting;
-using Orleans.Logging;
 using Orleans.Providers;
 using Orleans.Runtime;
 using OrleansBondUtils.CassandraInterop;
@@ -56,7 +55,6 @@ namespace CTHost
                     o.GatewayPort = 40000;
                     o.SiloPort = 11111;
                 })
-                .EnableDirectClient()
                 .UseCassandraClustering((CassandraClusteringOptions o) => o.ConnectionString = CTSettings.Instance.ConnectionString)
                 .UseCassandraReminderService((CassandraReminderTableOptions o) => o.ConnectionString = CTSettings.Instance.ConnectionString)
                 .AddCassandraGrainStorageAsDefault((CassandraGrainStorageOptions o) =>
@@ -64,7 +62,7 @@ namespace CTHost
                     o.ConnctionString = CTSettings.Instance.ConnectionString;
                     o.AddSerializationProvider(1, new BondCassandraStorageSerializationProvider());
                 })
-                .ConfigureLogging(l => l.AddFilter("Orleans", LogLevel.Information).AddConsole().AddFile($"log_{DateTime.Now:yy-MM-dd-H-mm-ss}"))
+                .ConfigureLogging(l => l.AddFilter("Orleans", LogLevel.Information).AddConsole())
                 .ConfigureApplicationParts(p =>
                 {
                     p.AddApplicationPart(typeof(Startup).Assembly).WithReferences();
@@ -92,7 +90,7 @@ namespace CTHost
             client = (IClusterClient)silo.Services.GetService(typeof(IClusterClient));
 
             var lightMessageHost = new LightMessageOrleansHost();
-            await lightMessageHost.Start(client, new IPEndPoint(IPAddress.Any, 1020), OnAuth, lightMessageLogger);
+            await lightMessageHost.Start(client, new IPEndPoint(IPAddress.Any, 1020), OnAuth, OnClientDisconnected, lightMessageLogger);
 
             while (Console.ReadLine() != "exit")
                 Console.WriteLine("Type 'exit' to stop silo and exit");
@@ -105,5 +103,7 @@ namespace CTHost
         {
             return client.GetGrain<IClientAuthorizer>(0).Authorize(AuthMessage);
         }
+
+        static Task OnClientDisconnected(Guid id) => Task.CompletedTask;
     }
 }

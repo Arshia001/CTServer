@@ -1,5 +1,5 @@
-﻿using LightMessage.Common.Messages;
-using LightMessage.Common.ProtocolMessages;
+﻿using LightMessage.Common.WireProtocol;
+using LightMessage.Common.MessagingProtocol;
 using LightMessage.OrleansUtils.GrainInterfaces;
 using System;
 using System.Collections.Generic;
